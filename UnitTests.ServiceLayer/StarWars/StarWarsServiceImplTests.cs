@@ -11,7 +11,6 @@ namespace UnitTests.ServiceLayer.StarWars;
 public class StarWarsServiceImplTests
 {
     private StarWarsServiceImpl _service;
-
     private Mock<StarWarsApiDao> _apiDaoMock;
 
     [SetUp]
@@ -41,7 +40,6 @@ public class StarWarsServiceImplTests
                 new() { Title = "The Empire Strikes Back", EpisodeId = 5 }
             }
         };
-
         _apiDaoMock.Setup(dao => dao.ListAllFilms())
             .ReturnsAsync(mockFilms);
 
@@ -80,16 +78,16 @@ public class StarWarsServiceImplTests
             Results = new List<SwApiFilm>
             {
                 new()
-                { 
-                    Title = "A New Hope", 
+                {
+                    Title = "A New Hope",
                     EpisodeId = 4,
                     StarshipUrls = new List<SwApiUrl> { new(){Url="url1"}, new(){Url="url2"} },
                     CharacterUrls = new List<SwApiUrl> { new(){Url="url1"}, new(){Url="url2"}, new(){Url="url3"} },
                     PlanetUrls = new List<SwApiUrl> { new(){Url="url1"} }
                 },
                 new()
-                { 
-                    Title = "The Empire Strikes Back", 
+                {
+                    Title = "The Empire Strikes Back",
                     EpisodeId = 5,
                     StarshipUrls = new List<SwApiUrl> { new(){Url="url1"}, new(){Url="url2"}, new(){Url="url3"} },
                     CharacterUrls = new List<SwApiUrl> { new(){Url="url1"}, new(){Url="url2"} },
@@ -97,7 +95,6 @@ public class StarWarsServiceImplTests
                 }
             }
         };
-
         _apiDaoMock.Setup(dao => dao.ListAllFilms())
             .ReturnsAsync(mockFilms);
 
@@ -146,8 +143,8 @@ public class StarWarsServiceImplTests
             Count = 2,
             Results = new List<SwApiStarship>
             {
-                new() { Name = "X-Wing", Crew = "1", CargoCapacity = "110" },
-                new() { Name = "Millennium Falcon", Crew = "4", CargoCapacity = "100000" }
+                new() { Name = "X-Wing", Crew = new SwApiSingleNumber(1), CargoCapacity = new SwApiSingleNumber(110) },
+                new() { Name = "Millennium Falcon", Crew = new SwApiSingleNumber(4), CargoCapacity = new SwApiSingleNumber(100000) }
             }
         };
         
@@ -173,8 +170,8 @@ public class StarWarsServiceImplTests
             Count = 2,
             Results = new List<SwApiStarship>
             {
-                new() { Name = "X-Wing", Crew = "1", CargoCapacity = "110" },
-                new() { Name = "Millennium Falcon", Crew = "4", CargoCapacity = "100000" }
+                new() { Name = "X-Wing", Crew = new SwApiSingleNumber(1), CargoCapacity = new SwApiSingleNumber(110) },
+                new() { Name = "Millennium Falcon", Crew = new SwApiSingleNumber(4), CargoCapacity = new SwApiSingleNumber(100000) }
             }
         };
         
@@ -198,9 +195,9 @@ public class StarWarsServiceImplTests
             Count = 3,
             Results = new List<SwApiStarship>
             {
-                new() { Name = "X-Wing", Crew = "1", CargoCapacity = "110" },
-                new() { Name = "Millennium Falcon", Crew = "4", CargoCapacity = "100000" },
-                new() { Name = "Star Destroyer", Crew = "47,060", CargoCapacity = "36000000" }
+                new() { Name = "X-Wing", Crew = new SwApiSingleNumber(1), CargoCapacity = new SwApiSingleNumber(110) },
+                new() { Name = "Millennium Falcon", Crew = new SwApiSingleNumber(4), CargoCapacity = new SwApiSingleNumber(100000) },
+                new() { Name = "Star Destroyer", Crew = new SwApiSingleNumber(47060), CargoCapacity = new SwApiSingleNumber(36000000) }
             }
         };
         
@@ -225,9 +222,9 @@ public class StarWarsServiceImplTests
             Count = 3,
             Results = new List<SwApiStarship>
             {
-                new() { Name = "X-Wing", Crew = "1", CargoCapacity = "110" },
-                new() { Name = "Millennium Falcon", Crew = "4", CargoCapacity = "100000" },
-                new() { Name = "Star Destroyer", Crew = "47,060", CargoCapacity = "36000000" }
+                new() { Name = "X-Wing", Crew = new SwApiSingleNumber(1), CargoCapacity = new SwApiSingleNumber(110) },
+                new() { Name = "Millennium Falcon", Crew = new SwApiSingleNumber(4), CargoCapacity = new SwApiSingleNumber(100000) },
+                new() { Name = "Star Destroyer", Crew = new SwApiSingleNumber(47060), CargoCapacity = new SwApiSingleNumber(36000000) }
             }
         };
         
@@ -235,7 +232,7 @@ public class StarWarsServiceImplTests
             .ReturnsAsync(mockStarships);
         
         // Act
-        List<SwApiStarship> result = await _service.SearchStarships("47");
+        List<SwApiStarship> result = await _service.SearchStarships("47060");
         
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -252,9 +249,9 @@ public class StarWarsServiceImplTests
             Count = 3,
             Results = new List<SwApiStarship>
             {
-                new() { Name = "X-Wing", Crew = "1", CargoCapacity = "110" },
-                new() { Name = "Millennium Falcon", Crew = "4", CargoCapacity = "100000" },
-                new() { Name = "Star Destroyer", Crew = "47,060", CargoCapacity = "36000000" }
+                new() { Name = "X-Wing", Crew = new SwApiSingleNumber(1), CargoCapacity = new SwApiSingleNumber(110) },
+                new() { Name = "Millennium Falcon", Crew = new SwApiSingleNumber(4), CargoCapacity = new SwApiSingleNumber(100000) },
+                new() { Name = "Star Destroyer", Crew = new SwApiSingleNumber(47060), CargoCapacity = new SwApiSingleNumber(36000000) }
             }
         };
         
@@ -262,7 +259,7 @@ public class StarWarsServiceImplTests
             .ReturnsAsync(mockStarships);
         
         // Act
-        List<SwApiStarship> result = await _service.SearchStarships("3600");
+        List<SwApiStarship> result = await _service.SearchStarships("36000000");
         
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -279,8 +276,8 @@ public class StarWarsServiceImplTests
             Count = 2,
             Results = new List<SwApiStarship>
             {
-                new() { Name = "X-Wing", Crew = "1", CargoCapacity = "110" },
-                new() { Name = "Millennium Falcon", Crew = "4", CargoCapacity = "100000" }
+                new() { Name = "X-Wing", Crew = new SwApiSingleNumber(1), CargoCapacity = new SwApiSingleNumber(110) },
+                new() { Name = "Millennium Falcon", Crew = new SwApiSingleNumber(4), CargoCapacity = new SwApiSingleNumber(100000) }
             }
         };
         

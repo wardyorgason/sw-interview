@@ -23,13 +23,13 @@ public class SwApiStarship
     public string MaxAtmospheringSpeed { get; set; }
 
     [JsonPropertyName("crew")]
-    public string Crew { get; set; }
+    public SwApiNumber Crew { get; set; }
 
     [JsonPropertyName("passengers")]
     public string Passengers { get; set; }
 
     [JsonPropertyName("cargo_capacity")]
-    public string CargoCapacity { get; set; }
+    public SwApiNumber CargoCapacity { get; set; }
 
     [JsonPropertyName("consumables")]
     public string Consumables { get; set; }

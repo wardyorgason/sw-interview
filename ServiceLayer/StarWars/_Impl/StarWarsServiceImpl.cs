@@ -44,12 +44,16 @@ public class StarWarsServiceImpl : StarWarsService
 
         // make it lower case for ease of comparison
         searchString = searchString.ToLower();
+
+        // if input is an integer
+        if (int.TryParse(searchString, out int intSearch))
+        {
+            return allShips.Results.WhereMatchesIntSearch(intSearch).ToList();
+        }
         
-        // for now until I understand the data better
-        return allShips.Results.Where(s =>
-            s.Name.ToLower().Contains(searchString)  ||
-            s.Crew.ToLower().Contains(searchString)  ||
-            s.CargoCapacity.ToLower().Contains(searchString)
-        ).ToList();
+        // if input is a string
+        return allShips.Results.WhereMatchesStringSearch(searchString).ToList();
     }
+
+    
 }

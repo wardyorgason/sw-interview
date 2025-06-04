@@ -15,7 +15,7 @@ public class StarWarsApiDaoImpl : StarWarsApiDao
         _httpClient = httpClient;
         _options = new(JsonSerializerDefaults.Web)
         {
-            Converters = { new SwApiUrlJsonConverter() }
+            Converters = { new SwApiUrlJsonConverter(), new SwApiNumberJsonConverter() }
         };
     }
 
