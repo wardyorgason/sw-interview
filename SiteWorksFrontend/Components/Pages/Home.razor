@@ -1,0 +1,63 @@
+﻿@page "/"
+@using Dtos.StarWars
+@using ServiceLayer.StarWars
+
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Dashboard</h1>
+
+
+
+
+@* <TelerikLoader Visible="@(_chartData is null)" *@
+@*     Size="@ThemeConstants.Loader.Size.Large" *@
+@*     ThemeColor="@ThemeConstants.Loader.ThemeColor.Tertiary" *@
+@*     Type="@LoaderType.ConvergingSpinner" /> *@
+
+<TelerikSkeleton ShapeType="@SkeletonShapeType.Rectangle"
+    Width="1000px"
+    Height="400px"
+    Visible="@(_chartData is null)"></TelerikSkeleton>
+
+
+@if (_chartData is not null)
+{
+    <TelerikChart Width ="1000px" Height="400px" @ref="_chartRef">
+        <ChartSeriesItems>
+            <ChartSeries Type="ChartSeriesType.Column" Name="Starships" Data="@(_chartData.Data.Select(f => f.Specifics.Starships as object))"></ChartSeries>
+            <ChartSeries Type="ChartSeriesType.Column" Name="People" Data="@(_chartData.Data.Select(f => f.Specifics.People as object))"></ChartSeries>
+            <ChartSeries Type="ChartSeriesType.Column" Name="Planets" Data="@(_chartData.Data.Select(f => f.Specifics.Planets as object))"></ChartSeries>
+        </ChartSeriesItems>
+        <ChartCategoryAxes>
+            <ChartCategoryAxis Categories="@(_chartData.Data.Select(f => f.Film.Title as object).ToArray())"></ChartCategoryAxis>
+        </ChartCategoryAxes>
+        <ChartTitle Text="Quarterly sales trend"></ChartTitle>
+
+    </TelerikChart>
+}
+
+<TelerikButton OnClick="GetData">Reload Data</TelerikButton>
+
+@code {
+    [Inject]
+    protected StarWarsService StarWarsService { get; set; }
+
+    private FilmBreakdownChartData? _chartData = null;
+    private TelerikChart? _chartRef;
+
+    private async Task GetData()
+    {
+        _chartData = null;
+        _chartData = await StarWarsService.GetFilmBreakdownChartData();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _chartData = await StarWarsService.GetFilmBreakdownChartData();
+            StateHasChanged();
+        }
+        
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

@@ -1,0 +1,71 @@
+﻿@using MudBlazor
+@inherits LayoutComponentBase
+
+<TelerikRootComponent>
+    <TelerikAppBar>
+        <AppBarSection>
+            <span>Company Logo</span>
+        </AppBarSection>
+
+        <AppBarSpacer></AppBarSpacer>
+
+        <AppBarSection>
+            <span>Our Products</span>
+        </AppBarSection>
+
+        <AppBarSeparator></AppBarSeparator>
+
+        <AppBarSection>
+            <span>Our Mission</span>
+        </AppBarSection>
+
+        <AppBarSeparator></AppBarSeparator>
+
+        <AppBarSection>
+            <span>Contact Us</span>
+        </AppBarSection>
+
+        <AppBarSpacer></AppBarSpacer>
+
+        <AppBarSection>
+            <TelerikSvgIcon Icon="@SvgIcon.User"></TelerikSvgIcon>
+        </AppBarSection>
+
+        <AppBarSeparator></AppBarSeparator>
+
+        <AppBarSection>
+            <TelerikSvgIcon Icon="@SvgIcon.Logout"></TelerikSvgIcon>
+        </AppBarSection>
+    </TelerikAppBar>
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu/>
+        </div>
+
+        <main>
+            <div class="top-row px-4">
+                <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            </div>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+
+    <div id="blazor-error-ui" data-nosnippet>
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+</TelerikRootComponent>
+
+@* Required *@
+<MudThemeProvider />
+<MudPopoverProvider />
+
+@* Needed for dialogs *@
+<MudDialogProvider />
+
+@* Needed for snackbars *@
+<MudSnackbarProvider />
