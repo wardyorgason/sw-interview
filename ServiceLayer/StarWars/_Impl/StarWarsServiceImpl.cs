@@ -31,4 +31,25 @@ public class StarWarsServiceImpl : StarWarsService
 
         return chartData;
     }
+
+    public async Task<List<SwApiStarship>> SearchStarships(string? searchString)
+    {
+        SwApiListingResult<SwApiStarship>? allShips = await _apiDao.ListAllStarships();
+
+        if (allShips is null)
+            throw new NullReferenceException("Unable to retrieve starships");
+        
+        if (string.IsNullOrWhiteSpace(searchString))
+            return allShips.Results;
+
+        // make it lower case for ease of comparison
+        searchString = searchString.ToLower();
+        
+        // for now until I understand the data better
+        return allShips.Results.Where(s =>
+            s.Name.ToLower().Contains(searchString)  ||
+            s.Crew.ToLower().Contains(searchString)  ||
+            s.CargoCapacity.ToLower().Contains(searchString)
+        ).ToList();
+    }
 }

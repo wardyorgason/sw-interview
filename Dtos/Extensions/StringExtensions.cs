@@ -1,11 +1,11 @@
 using System.Text.RegularExpressions;
 
-namespace ServiceLayer.Extensions;
+namespace Dtos.Extensions;
 
 public static class StringExtensions
 {
     // This was mostly written by ChatGPT
-    public static int? ExtractSwapiId(this string? url)
+    public static int? ExtractSwApiId(this string? url)
     {
         if (url is null) return null;
         

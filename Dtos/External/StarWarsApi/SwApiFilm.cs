@@ -23,19 +23,19 @@ public class SwApiFilm
     public string ReleaseDate { get; set; }  // Use DateTime if parsing to date
 
     [JsonPropertyName("characters")]
-    public List<string> CharacterUrls { get; set; }
+    public List<SwApiUrl> CharacterUrls { get; set; }
 
     [JsonPropertyName("planets")]
-    public List<string> PlanetUrls { get; set; }
+    public List<SwApiUrl> PlanetUrls { get; set; }
 
     [JsonPropertyName("starships")]
-    public List<string> StarshipUrls { get; set; }
+    public List<SwApiUrl> StarshipUrls { get; set; }
 
     [JsonPropertyName("vehicles")]
-    public List<string> VehicleUrls { get; set; }
+    public List<SwApiUrl> VehicleUrls { get; set; }
 
     [JsonPropertyName("species")]
-    public List<string> SpeciesUrls { get; set; }
+    public List<SwApiUrl> SpeciesUrls { get; set; }
 
     [JsonPropertyName("created")]
     public DateTime Created { get; set; }

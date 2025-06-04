@@ -1,4 +1,5 @@
 using Dependencies;
+using Dtos.External.StarWarsApi;
 using MudBlazor.Services;
 using SiteWorksFrontend.Components;
 
@@ -15,6 +16,12 @@ builder.Services.AddTelerikBlazor();
 
 // Add MudBlazor Services
 builder.Services.AddMudServices();
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new SwApiUrlJsonConverter());
+    options.SerializerOptions.PropertyNameCaseInsensitive = true;
+});
 
 WebApplication app = builder.Build();
 

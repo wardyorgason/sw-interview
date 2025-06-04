@@ -6,4 +6,5 @@ public interface StarWarsApiDao
 {
     public Task<SwApiListingResult<SwApiFilm>?> ListAllFilms();
     public Task<SwApiFilm?> GetFilmById(int id);
+    public Task<SwApiListingResult<SwApiStarship>?> ListAllStarships();
 }

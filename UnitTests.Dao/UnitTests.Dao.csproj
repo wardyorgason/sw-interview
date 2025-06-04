@@ -23,6 +23,9 @@
       <None Update="External\TestObjects\ListAllFilms__Deserializes_Properly.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="External\TestObjects\ListAllStarships__Deserializes_Properly.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

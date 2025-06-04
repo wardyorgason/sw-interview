@@ -6,9 +6,6 @@
 
 <h1>Dashboard</h1>
 
-
-
-
 @* <TelerikLoader Visible="@(_chartData is null)" *@
 @*     Size="@ThemeConstants.Loader.Size.Large" *@
 @*     ThemeColor="@ThemeConstants.Loader.ThemeColor.Tertiary" *@
@@ -31,12 +28,15 @@
         <ChartCategoryAxes>
             <ChartCategoryAxis Categories="@(_chartData.Data.Select(f => f.Film.Title as object).ToArray())"></ChartCategoryAxis>
         </ChartCategoryAxes>
-        <ChartTitle Text="Quarterly sales trend"></ChartTitle>
+        <ChartTitle Text="Statistics by Film"></ChartTitle>
 
     </TelerikChart>
 }
 
-<TelerikButton OnClick="GetData">Reload Data</TelerikButton>
+<div style="margin-top: 20px">
+    <TelerikButton OnClick="GetData">Reload Data</TelerikButton>    
+</div>
+
 
 @code {
     [Inject]

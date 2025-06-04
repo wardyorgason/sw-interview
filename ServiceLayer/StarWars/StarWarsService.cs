@@ -7,4 +7,5 @@ public interface StarWarsService
 {
     Task<List<SwApiFilm>> GetAllFilms();
     Task<FilmBreakdownChartData> GetFilmBreakdownChartData();
+    Task<List<SwApiStarship>> SearchStarships(string? searchString);
 }

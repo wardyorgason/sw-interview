@@ -1,0 +1,49 @@
+@page "/starships"
+@using Dtos.External.StarWarsApi
+@using ServiceLayer.StarWars
+<h1>Starships</h1>
+
+<TelerikGrid Data="@_starShips"
+    Pageable="true"
+    Sortable="true"
+    FilterMode="@GridFilterMode.FilterRow"
+    @ref="_grid"
+>
+    <GridColumns>
+        <GridColumn Field="@nameof(SwApiStarship.Name)" />
+        <GridColumn Field="@nameof(SwApiStarship.CargoCapacity)" Title="Cargo Capacity" />
+        <GridColumn Field="@nameof(SwApiStarship.Crew)" />
+        <GridColumn Field="@nameof(SwApiStarship.Model)" />
+        <GridColumn Field="@nameof(SwApiStarship.HyperdriveRating)" Title="Hyperdrive Rating" />
+    </GridColumns>
+</TelerikGrid>
+
+<div style="margin-top: 20px">
+    <TelerikButton OnClick="GetData">Reload Data</TelerikButton>
+</div>
+
+@code {
+    [Inject]
+    private StarWarsService StarWarsService { get; set; }
+    
+    private TelerikGrid<SwApiStarship> _grid;
+
+    private List<SwApiStarship> _starShips = [];
+
+    private async Task GetData()
+    {
+        _starShips = await StarWarsService.SearchStarships(null);
+        _grid.Rebind();
+        StateHasChanged();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await GetData();
+        }
+        
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+}
