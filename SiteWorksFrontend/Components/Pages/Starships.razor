@@ -32,15 +32,30 @@
 
     private async Task GetData()
     {
+        // have the UI indicate we are loading
+        _starShips = []; // using Clear() doesn't update the UI
+        
+        // pull the new values
         _starShips = await StarWarsService.SearchStarships(null);
         _grid.Rebind();
-        StateHasChanged();
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetData();
+        
+        // StateHasChanged() is not required here for some reason.
+        
+        await base.OnInitializedAsync();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await GetData();
+            // if I query the data here, it requires a call to indicate state has changed
+            // await GetData();
+            // StateHasChanged();
         }
         
         await base.OnAfterRenderAsync(firstRender);

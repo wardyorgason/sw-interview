@@ -17,21 +17,21 @@ public static class CustomDependencies
         RegisterDaos(services);
         RegisterUtilities(services);
     }
-    public static void RegisterServices(IServiceCollection services)
+
+    private static void RegisterServices(IServiceCollection services)
     {
         // nothing yet
         services.AddSingleton<StarWarsService, StarWarsServiceImpl>();
     }
-    
 
-    public static void RegisterDaos(IServiceCollection services)
+
+    private static void RegisterDaos(IServiceCollection services)
     {
         services.AddSingleton<StarWarsApiDao, StarWarsApiDaoImpl>();
     }
 
-    public static void RegisterUtilities(IServiceCollection services)
+    private static void RegisterUtilities(IServiceCollection services)
     {
         services.AddSingleton<HttpClientWrapper, HttpClientWrapperImpl>();
-        services.AddSingleton<HttpClientHandler>();
     }
 }

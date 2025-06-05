@@ -1,14 +1,12 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
 
 namespace Utilities.Wrappers._Impl;
 
 public class HttpClientWrapperImpl : HttpClientWrapper
 {
     private (DateTime IssueDate, HttpClient Client)? _currentClient;
-    private readonly HttpClientHandler _handler;
     private HttpClient HttpClient
     {
         get
@@ -22,17 +20,7 @@ public class HttpClientWrapperImpl : HttpClientWrapper
             return _currentClient.Value.Client;
         }
     }
-
-
-     /// <summary>
-     /// Constructor for when we want to store session information (not for singletons)
-     /// </summary>
-     /// <param name="handler"></param>
-     /// <param name="logger"></param>
-    public HttpClientWrapperImpl(HttpClientHandler handler)
-    {
-        _handler = handler;
-    }
+    
     public async Task<string> GetStringAsync(string requestUri)
     {
         return await HttpClient.GetStringAsync(requestUri).ConfigureAwait(false);
