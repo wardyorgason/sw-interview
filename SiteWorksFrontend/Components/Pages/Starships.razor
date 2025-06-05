@@ -1,7 +1,13 @@
 @page "/starships"
 @using Dtos.External.StarWarsApi
 @using ServiceLayer.StarWars
+@using MudBlazor
+
+<PageTitle>Starships</PageTitle>
+
 <h1>Starships</h1>
+
+<MudTextField T="string?" Value="_searchValue" ValueChanged="@(s => OnSearchChanged(s))" Label="Standard" Variant="Variant.Text"></MudTextField>
 
 <TelerikGrid Data="@_starShips"
     Pageable="true"
@@ -11,12 +17,27 @@
 >
     <GridColumns>
         <GridColumn Field="@nameof(SwApiStarship.Name)" />
-        <GridColumn Field="@nameof(SwApiStarship.CargoCapacity)" Title="Cargo Capacity" />
-        <GridColumn Field="@nameof(SwApiStarship.Crew)" />
+        <GridColumn Field="@nameof(SwApiStarship.CargoCapacity)" Title="Cargo Capacity">
+            <Template>
+                @{
+                    SwApiStarship item = (SwApiStarship)context;
+                    <span>@FormatSwApiNumber(item.CargoCapacity)</span>
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Field="@nameof(SwApiStarship.Crew)">
+            <Template>
+                @{
+                SwApiStarship item = (SwApiStarship)context;
+                <span>@FormatSwApiNumber(item.Crew)</span>
+                }
+            </Template>
+        </GridColumn>
         <GridColumn Field="@nameof(SwApiStarship.Model)" />
         <GridColumn Field="@nameof(SwApiStarship.HyperdriveRating)" Title="Hyperdrive Rating" />
     </GridColumns>
 </TelerikGrid>
+
 
 <div style="margin-top: 20px">
     <TelerikButton OnClick="GetData">Reload Data</TelerikButton>
@@ -26,14 +47,26 @@
     [Inject]
     private StarWarsService StarWarsService { get; set; }
     
-    private TelerikGrid<SwApiStarship> _grid;
+    private TelerikGrid<SwApiStarship>? _grid;
 
     private List<SwApiStarship> _starShips = [];
 
+    private string? _searchValue = null;
+    
+    [CascadingParameter(Name = "IsWookieeMode")]
+    public bool? IsWookieeMode { get; set; } = false;
+
+    private void OnSearchChanged(string? input)
+    {
+        _searchValue = input;
+        InvokeAsync(GetData);
+    }
+
     private async Task GetData()
     {
-        _starShips = await StarWarsService.SearchStarships(null);
-        _grid.Rebind();
+        _starShips = (await StarWarsService.SearchStarships(_searchValue))
+            .ToList();
+        _grid?.Rebind();
         StateHasChanged();
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -44,6 +77,21 @@
         }
         
         await base.OnAfterRenderAsync(firstRender);
+    }
+    
+    private string FormatSwApiNumber(SwApiNumber number)
+    {
+        if(number is SwApiSingleNumber singleNumber)
+        {
+            return singleNumber.Value.ToString("N0");
+        }
+
+        if(number is SwApiNumberRange numberRange)
+        {
+            return $"{numberRange.Start:N0} - {numberRange.End:N0}";
+        }
+
+        return "n/a";
     }
 
 }
