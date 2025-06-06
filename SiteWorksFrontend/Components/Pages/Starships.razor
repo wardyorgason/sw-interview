@@ -62,9 +62,9 @@
     private async Task GetData()
     {
         _starShips = [];
-        _starShips = (await StarWarsService.SearchStarships(_searchValue))
-            .ToList();
+        _starShips = await StarWarsService.SearchStarships(_searchValue);
         _grid?.Rebind();
+        StateHasChanged();
     }
 
     protected override async Task OnInitializedAsync()
