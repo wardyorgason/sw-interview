@@ -52,9 +52,6 @@
     private List<SwApiStarship> _starShips = [];
 
     private string? _searchValue = null;
-    
-    [CascadingParameter(Name = "IsWookieeMode")]
-    public bool? IsWookieeMode { get; set; } = false;
 
     private void OnSearchChanged(string? input)
     {
@@ -64,19 +61,16 @@
 
     private async Task GetData()
     {
+        _starShips = [];
         _starShips = (await StarWarsService.SearchStarships(_searchValue))
             .ToList();
         _grid?.Rebind();
-        StateHasChanged();
     }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            await GetData();
-        }
-        
-        await base.OnAfterRenderAsync(firstRender);
+        await GetData();
+        await base.OnInitializedAsync();
     }
     
     private string FormatSwApiNumber(SwApiNumber number)
